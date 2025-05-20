@@ -3,6 +3,7 @@
 #include <string>
 #include <cstdlib>  // For rand() and srand()
 #include <ctime>    // For time()
+#include <iomanip>  // For setw()
 
 using namespace std;
 
@@ -37,30 +38,32 @@ public:
 
     // Function to create an account and save to Data.txt
     void createAccount() {
-        cout << "Enter your Full Name: ";
+        system("cls");
+        printHeader("Create Account");
+
+        cout << setw(50) << "Enter your Full Name: ";
         cin.ignore(); // To ignore the newline character left in the input buffer
         getline(cin, fullName);
-        cout << "Enter your Father's Name: ";
+        cout << setw(50) << "Enter your Father's Name: ";
         getline(cin, fatherName);
-        cout << "Enter your NIC: ";
+        cout << setw(50) << "Enter your NIC: ";
         getline(cin, nic);
-        cout << "Enter your Phone Number: ";
+        cout << setw(50) << "Enter your Phone Number: ";
         getline(cin, phoneNumber);
 
         // Generate a unique account number
         accountNumber = generateAccountNumber();
 
-        cout << "Your generated Account Number is: " << accountNumber << " (Note: Remember this number!)" << endl;
+        cout << setw(50) << "Your generated Account Number is: " << accountNumber << " (Note: Remember this number!)" << endl;
 
-        cout << "Enter your PIN: ";
+        cout << setw(50) << "Enter your PIN: ";
         cin >> pin;
-        cout << "Enter Initial Deposit: ";
+        cout << setw(50) << "Enter Initial Deposit: ";
         cin >> balance;
 
         // Save account details to Data.txt
         ofstream outFile("Data.txt", ios::app);  // Append to the file
         if (outFile.is_open()) {
-            outFile << "// Output The Data.txt File" << endl;
             outFile << "Full Name: " << fullName << endl;
             outFile << "Father's Name: " << fatherName << endl;
             outFile << "NIC: " << nic << endl;
@@ -70,58 +73,77 @@ public:
             outFile << "Initial Deposit: " << balance << endl;
             outFile << "-------------------------" << endl;
             outFile.close();
-            cout << "Account created successfully! Data saved to Data.txt." << endl;
+            cout << setw(50) << "Account created successfully! Data saved to Data.txt." << endl;
         } else {
-            cout << "Error opening file." << endl;
+            cout << setw(50) << "Error opening file." << endl;
         }
     }
 
     // Function to check the balance
     void checkBalance(const string& inputAccNum, const string& inputPin) {
+        system("cls");
+        printHeader("Check Balance");
+
         if (inputAccNum == accountNumber && inputPin == pin) {
-            cout << "Your balance is: " << balance << endl;
+            cout << setw(50) << "Your balance is: " << balance << endl;
         } else {
-            cout << "Invalid account number or PIN." << endl;
+            cout << setw(50) << "Invalid account number or PIN." << endl;
         }
     }
 
     // Function to deposit money
     void deposit(double amount, const string& inputAccNum, const string& inputPin) {
+        system("cls");
+        printHeader("Deposit Money");
+
         if (inputAccNum == accountNumber && inputPin == pin) {
             balance += amount;
-            cout << "Deposit successful! New balance: " << balance << endl;
+            cout << setw(50) << "Deposit successful! New balance: " << balance << endl;
         } else {
-            cout << "Invalid account number or PIN." << endl;
+            cout << setw(50) << "Invalid account number or PIN." << endl;
         }
     }
 
     // Function to withdraw money
     void withdraw(double amount, const string& inputAccNum, const string& inputPin) {
+        system("cls");
+        printHeader("Withdraw Money");
+
         if (inputAccNum == accountNumber && inputPin == pin) {
             if (amount <= balance) {
                 balance -= amount;
-                cout << "Withdrawal successful! New balance: " << balance << endl;
+                cout << setw(50) << "Withdrawal successful! New balance: " << balance << endl;
             } else {
-                cout << "Insufficient balance!" << endl;
+                cout << setw(50) << "Insufficient balance!" << endl;
             }
         } else {
-            cout << "Invalid account number or PIN." << endl;
+            cout << setw(50) << "Invalid account number or PIN." << endl;
         }
     }
 
     // Function to delete the account
     bool deleteAccount(const string& inputAccNum, const string& inputPin) {
+        system("cls");
+        printHeader("Delete Account");
+
         if (inputAccNum == accountNumber && inputPin == pin) {
             // Resetting account details to simulate deletion
             accountNumber = "";
             pin = "";
             balance = 0;
-            cout << "Account deleted successfully!" << endl;
+            cout << setw(50) << "Account deleted successfully!" << endl;
             return true;
         } else {
-            cout << "Invalid account number or PIN." << endl;
+            cout << setw(50) << "Invalid account number or PIN." << endl;
             return false;
         }
+    }
+
+    // Function to print a centered header
+    void printHeader(const string& title) {
+        cout << string(50, '=') << endl;
+        cout << setw(40) << title << endl;
+        cout << string(50, '=') << endl;
     }
 };
 
@@ -131,29 +153,31 @@ int main() {
     int choice;
 
     do {
-        cout << "--- ATM Menu ---" << endl;
-        cout << "1. Create Account" << endl;
-        cout << "2. Check Balance" << endl;
-        cout << "3. Deposit Money" << endl;
-        cout << "4. Withdraw Money" << endl;
-        cout << "5. Delete Account" << endl;
-        cout << "6. Exit" << endl;
-        cout << "Enter your choice: ";
+        system("cls");
+        cout << string(50, '=') << endl;
+        cout << setw(40) << "--- ATM Menu ---" << endl;
+        cout << string(50, '=') << endl;
+        cout << setw(40) << "1. Create Account" << endl;
+        cout << setw(40) << "2. Check Balance" << endl;
+        cout << setw(40) << "3. Deposit Money" << endl;
+        cout << setw(40) << "4. Withdraw Money" << endl;
+        cout << setw(40) << "5. Delete Account" << endl;
+        cout << setw(40) << "6. Exit" << endl;
+        cout << string(50, '=') << endl;
+        cout << setw(40) << "Enter your choice: ";
         cin >> choice;
 
         string inputAccNum, inputPin;
 
         switch (choice) {
             case 1:
-                cout << "--- Create Account ---" << endl;
                 account.createAccount();
                 break;
 
             case 2:
-                cout << "--- Check Balance ---" << endl;
-                cout << "Enter your account number: ";
+                cout << setw(50) << "Enter your account number: ";
                 cin >> inputAccNum;
-                cout << "Enter your PIN: ";
+                cout << setw(50) << "Enter your PIN: ";
                 cin >> inputPin;
                 account.checkBalance(inputAccNum, inputPin);
                 break;
@@ -161,12 +185,11 @@ int main() {
             case 3:
                 {
                     double depositAmount;
-                    cout << "--- Deposit Money ---" << endl;
-                    cout << "Enter your account number: ";
+                    cout << setw(50) << "Enter your account number: ";
                     cin >> inputAccNum;
-                    cout << "Enter your PIN: ";
+                    cout << setw(50) << "Enter your PIN: ";
                     cin >> inputPin;
-                    cout << "Enter amount to deposit: ";
+                    cout << setw(50) << "Enter amount to deposit: ";
                     cin >> depositAmount;
                     account.deposit(depositAmount, inputAccNum, inputPin);
                 }
@@ -175,35 +198,37 @@ int main() {
             case 4:
                 {
                     double withdrawAmount;
-                    cout << "--- Withdraw Money ---" << endl;
-                    cout << "Enter your account number: ";
+                    cout << setw(50) << "Enter your account number: ";
                     cin >> inputAccNum;
-                    cout << "Enter your PIN: ";
+                    cout << setw(50) << "Enter your PIN: ";
                     cin >> inputPin;
-                    cout << "Enter amount to withdraw: ";
+                    cout << setw(50) << "Enter amount to withdraw: ";
                     cin >> withdrawAmount;
                     account.withdraw(withdrawAmount, inputAccNum, inputPin);
                 }
                 break;
 
             case 5:
-                cout << "--- Delete Account ---" << endl;
-                cout << "Enter your account number: ";
+                cout << setw(50) << "Enter your account number: ";
                 cin >> inputAccNum;
-                cout << "Enter your PIN: ";
+                cout << setw(50) << "Enter your PIN: ";
                 cin >> inputPin;
                 account.deleteAccount(inputAccNum, inputPin);
                 break;
 
             case 6:
-                cout << "--- Exit Program ---" << endl;
-                cout << "Thank you for using the ATM. Goodbye!" << endl;
+                system("cls");
+                cout << string(50, '=') << endl;
+                cout << setw(40) << "Thank you for using the ATM!" << endl;
+                cout << string(50, '=') << endl;
                 break;
 
             default:
-                cout << "Invalid choice. Please select again." << endl;
+                cout << setw(50) << "Invalid choice. Please select again." << endl;
         }
-        cout << endl;
+        cout << "\nPress any key to continue...";
+        cin.ignore();
+        cin.get();
 
     } while (choice != 6);
 
